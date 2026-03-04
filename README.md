@@ -1,4 +1,4 @@
-# My Stochastic Processes Notes
+# Stochastic Processes Notes
 
 This repository contains my personal notes, derivations, as well as intuitive explanations for topics in stochastic processes and Markov chains.
 
