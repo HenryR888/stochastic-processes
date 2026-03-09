@@ -1,0 +1,241 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+
+\setstretch{1.2}
+
+\begin{document}
+
+\title{Chapman-Kolmogorov Equations Proof and Notes}
+\author{Henry Rochester\\
+\small Based on lectures by Dr.\ Etienne Pienaar\\
+\small Department of Statistical Sciences, University of Cape Town}
+\date{}
+\maketitle
+
+\section*{Chapman-Kolmogorov Equations}
+
+We start with examining the Chapman-Kolmogorov proof. I also add additional intuition and reasoning between each step to explain what I am doing and why.\\
+
+I will start by giving the full proof with partial reasoning  so that we get a feel for the flow of the proof; moreover, this is what I would end up writing in my exams and tests, as there is a time factor at play. \textit{C'est parti!}\\
+
+\vspace{0.5cm}
+
+For a chain that has the Markov Property (that is, a Markov chain), we can write:\\
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}\gamma_{ik}(s,v)\gamma_{kj}(s+v,t-v),
+\qquad 0<v<t.
+\]
+
+\subsection*{Proof (exam-style version)}
+
+\[
+\gamma_{ij}(s,t)=\Pr(X_{s+t}=j\mid X_s=i)
+\]
+by definition.\\
+
+Then,
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}\Pr(X_{s+t}=j,\;X_{s+v}=k\mid X_s=i)
+\]
+by the Law of Total Probability.\\
+
+Next,
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}
+\Pr(X_{s+v}=k\mid X_s=i)\,
+\Pr(X_{s+t}=j\mid X_{s+v}=k,\;X_s=i)
+\]
+by conditioning.\\
+
+Then, by the Markov Property,
+\[
+\Pr(X_{s+t}=j\mid X_{s+v}=k,\;X_s=i)
+=
+\Pr(X_{s+t}=j\mid X_{s+v}=k).
+\]\\
+
+Hence,\\
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}
+\Pr(X_{s+v}=k\mid X_s=i)\,
+\Pr(X_{s+t}=j\mid X_{s+v}=k).
+\]\\
+
+But by definition,\\
+\[
+\Pr(X_{s+v}=k\mid X_s=i)=\gamma_{ik}(s,v),
+\]
+and
+\[
+\Pr(X_{s+t}=j\mid X_{s+v}=k)=\gamma_{kj}(s+v,t-v).
+\]
+
+Therefore,\\
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}\gamma_{ik}(s,v)\gamma_{kj}(s+v,t-v).
+\]
+
+\[
+\boxed{
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}\gamma_{ik}(s,v)\gamma_{kj}(s+v,t-v)
+}
+\]
+as required. \hfill $\square$
+
+\newpage
+
+\section*{Chapman-Kolmogorov Equations Proof with Intuition and Detailed Reasoning}
+
+The basis of the Chapman-Kolmogorov equations is that they allow us to decompose the probability of moving from some state $i$ to some state $j$ in some number of time steps $t$, starting at reference time point $s$, into an intermediate step: first, we go from state $i$ to some intermediate state $k$ in $v$ time steps, and then from there, we go from state $k$ to state $j$ in the remaining number of time steps, namely $t-v$, so that the total number of time steps taken is still $t$. Then we sum over all possible intermediate states $k$ in the state space.\\
+
+In other words, rather than trying to analyse one long transition all at once, we break it into two shorter transitions whose lengths still add up to the original total. This is the core idea.\\
+
+\vspace{0.3cm}
+
+The first thing I do when asked to prove something is ask:\\
+
+\begin{quote}
+``What do I know from what I have been given or asked to prove?''
+\end{quote}
+
+Well, I am given $\gamma_{ij}(s,t)$. Intuitively, and then connecting this to the definition, this just means the probability that, given that I am in state $i$ at time $s$, I am in state $j$ at time $s+t$. Written formally:\\
+\[
+\gamma_{ij}(s,t)=\Pr(X_{s+t}=j\mid X_s=i),
+\]
+which is exactly the definition.
+
+\vspace{0.3cm}
+
+Now, if I get to state $j$ in $t$ time steps, then I must certainly be somewhere after $v$ time steps, where $0<v<t$. Let that intermediate state be called $k$. Since I do not know ahead of time which state this intermediate state is, I must sum over all possible $k\in U$.\\
+
+So, the event ``being in state $j$ at time $s+t$'' can be decomposed according to where I am at the intermediate time $s+v$. Thus,
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}\Pr(X_{s+t}=j,\;X_{s+v}=k\mid X_s=i).
+\]
+
+Effectively, what I have done here is split the journey from $i$ to $j$ into all possible paths that pass through some intermediate state $k$ at time $s+v$. This is just the Law of Total Probability in action.\\
+
+\vspace{0.3cm}
+
+Next, I rewrite the joint conditional probability by conditioning:
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}
+\Pr(X_{s+v}=k\mid X_s=i)\,
+\Pr(X_{s+t}=j\mid X_{s+v}=k,\;X_s=i).
+\]
+
+What is happening here? I am splitting the probability into two parts:
+
+\begin{enumerate}
+    \item the probability that, having started in state $i$ at time $s$, I arrive in state $k$ at time $s+v$; and
+    \item the probability that, having reached this intermediate state $k$, I then go on to reach state $j$ at time $s+t$.
+\end{enumerate}
+
+So far, this is just probability manipulation. I have not yet used the Markov Property.\\
+
+\vspace{0.3cm}
+
+Because we are working with a Markov chain, the future depends on the present, and not on the past beyond the present. So once I know that the chain is in state $k$ at time $s+v$, the extra information that it started at state $i$ at time $s$ becomes irrelevant for predicting where it will be at time $s+t$.\\
+
+Thus,
+\[
+\Pr(X_{s+t}=j\mid X_{s+v}=k,\;X_s=i)
+=
+\Pr(X_{s+t}=j\mid X_{s+v}=k).
+\]\\
+
+Intuitively, this means that the intermediate state $k$ contains all the information I need about the past, as far as predicting the future is concerned. That is exactly what the Markov Property says.\\
+
+So now the expression becomes:
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}
+\Pr(X_{s+v}=k\mid X_s=i)\,
+\Pr(X_{s+t}=j\mid X_{s+v}=k).
+\]
+
+Finally, I now convert each term back into $\gamma$ notation using the definition again...\\
+
+First,
+\[
+\Pr(X_{s+v}=k\mid X_s=i)=\gamma_{ik}(s,v),
+\]
+since this is the probability of going from state $i$ at time $s$ to state $k$ in $v$ time steps.\\
+
+Second,
+\[
+\Pr(X_{s+t}=j\mid X_{s+v}=k)=\gamma_{kj}(s+v,t-v),
+\]
+since from the intermediate time $s+v$ there are exactly $t-v$ time steps remaining until time $s+t$.\\
+
+Substituting these into the previous line gives:\\
+\[
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}\gamma_{ik}(s,v)\gamma_{kj}(s+v,t-v).
+\]
+
+Hence, we conclude that:\\
+\[
+\boxed{
+\gamma_{ij}(s,t)
+=
+\sum_{k\in U}\gamma_{ik}(s,v)\gamma_{kj}(s+v,t-v)
+}
+\]
+which is precisely the Chapman-Kolmogorov equation.
+
+\hfill $\square$
+
+\section*{Matrix Form}
+
+If we write the transition probabilities in matrix form, then the Chapman-Kolmogorov equations become
+\[
+\Gamma^{(t)}(s)=\Gamma^{(v)}(s)\,\Gamma^{(t-v)}(s+v).
+\]
+
+That is, the transition matrix for a total of $t$ steps can be decomposed into the product of the transition matrix for the first $v$ steps and the transition matrix for the remaining $t-v$ steps.
+
+\section*{Final Intuition}
+
+The Chapman-Kolmogorov equations are really just a formal statement of the following idea:
+
+\begin{quote}
+To get from state $i$ to state $j$ in $t$ steps, I can first go from $i$ to some intermediate state $k$ in $v$ steps, and then from $k$ to $j$ in the remaining $t-v$ steps. Since I do not know which intermediate state I pass through, I sum over all possible $k$.
+\end{quote}
+
+So, all we're doing is just decomposing a long journey into two shorter journeys, and then adding up all the possible intermediate ways that this can happen.
+
+\section*{References}
+
+\begin{itemize}
+
+\item Pienaar, E. (University of Cape Town). 
+\textit{Stochastic Processes}. 
+Lecture notes and in-person lectures, Department of Statistical Sciences,
+University of Cape Town.
+
+\end{itemize}
+
+\end{document}
