@@ -1,0 +1,250 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
+
+\setstretch{1.2}
+
+\begin{document}
+
+\title{Communication is an Equivalence Relation}
+\author{Henry Rochester\\
+\small Based on lectures by Dr.\ Etienne Pienaar\\
+\small Department of Statistical Sciences, University of Cape Town}
+\date{}
+\maketitle
+
+\section*{Communication is an Equivalence Relation}
+
+We show that the communication relation between states of a Markov chain is an equivalence relation. In particular, we show the transitivity property. C'est parti!\\
+
+\textbf{Statement:}
+
+If $i \leftrightarrow j$ and $i \leftrightarrow k$, then $j \leftrightarrow k$.
+
+\vspace{0.5cm}
+
+\subsection*{Proof (exam-style version)}
+
+Suppose that $i \leftrightarrow j$ and $i \leftrightarrow k$.\\
+
+By definition of communication, there exist integers $v,w \geq 1$ such that:\\
+\[
+\gamma_{ij}(v) > 0
+\qquad \text{and} \qquad
+\gamma_{ji}(w) > 0.
+\]\\
+
+Similarly, there exist integers $x,y \geq 1$ such that:\\
+\[
+\gamma_{ik}(x) > 0
+\qquad \text{and} \qquad
+\gamma_{ki}(y) > 0.
+\]\\
+
+To show $j \to k$, consider the transition probability $\gamma_{jk}(w+x)$. By the Chapman-Kolmogorov equations,\\
+\[
+\gamma_{jk}(w+x)
+=
+\sum_{r \in \cal{U}} \gamma_{jr}(w)\gamma_{rk}(x).
+\]\\
+
+Since $i \in \cal{U}$, one of the terms in the sum is given by: \\
+\[
+\gamma_{ji}(w)\gamma_{ik}(x).
+\]\\
+
+Both factors are strictly positive, thus it follows that: \\
+\[
+\gamma_{ji}(w)\gamma_{ik}(x) > 0.
+\]\\
+
+Hence,\\
+\[
+\gamma_{jk}(w+x)
+\geq
+\gamma_{ji}(w)\gamma_{ik}(x)
+>0.
+\]\\
+
+Thus,\\
+\[
+\gamma_{jk}(w+x)>0,
+\]\\
+and therefore $j \to k$.\\
+
+
+Similarly, to show $k \to j$, consider $\gamma_{kj}(y+v)$. By Chapman-Kolmogorov,\\
+\[
+\gamma_{kj}(y+v)
+=
+\sum_{r\in \cal{U}}\gamma_{kr}(y)\gamma_{rj}(v).
+\]\\
+
+Again, the term corresponding to $r=i$ is:
+\[
+\gamma_{ki}(y)\gamma_{ij}(v).
+\]\\
+
+Both factors are strictly positive, so:
+\[
+\gamma_{ki}(y)\gamma_{ij}(v)>0.
+\]\\
+
+Thus,\\
+\[
+\gamma_{kj}(y+v)
+\geq
+\gamma_{ki}(y)\gamma_{ij}(v)
+>0.
+\]\\
+
+Hence,\\
+\[
+\gamma_{kj}(y+v)>0,
+\]\\
+which implies $k \to j$.\\
+
+Since $j \to k$ and $k \to j$, we conclude that: \\
+\[
+j \leftrightarrow k.
+\]\\
+
+\[
+\boxed{j \leftrightarrow k}
+\]
+
+as required. \hfill $\square$
+
+\newpage
+
+\section*{Proof with Intuition and Detailed Reasoning}
+
+The goal of this proof is to show that the communication relation between states behaves like an equivalence relation. In particular, we want to prove \textit{transitivity}. That is to say:\\
+
+\begin{quote}
+If state $i$ communicates with state $j$, and state $i$ communicates with state $k$, then states $j$ and $k$ must also communicate with each other.\\
+\end{quote}
+
+\vspace{0.3cm}
+
+We begin by recalling the definition of communication. Saying that $i \leftrightarrow j$ means two things:\\
+
+\begin{itemize}
+\item it is possible to go from state $i$ to state $j$ in some number of steps, and
+\item it is possible to go from state $j$ back to state $i$ in some number of steps.
+\end{itemize}
+
+Formally, this means that there exist integers $v,w \geq 1$ such that:\\
+\[
+\gamma_{ij}(v)>0
+\qquad \text{and} \qquad
+\gamma_{ji}(w)>0.
+\]\\
+
+Intuitively, this simply means that there exists a path from $i$ to $j$ and another path from $j$ back to $i$.\\
+
+\vspace{0.3cm}
+
+Similarly, the assumption $i \leftrightarrow k$ tells us that there exist integers $x,y \geq 1$ such that:\\
+\[
+\gamma_{ik}(x)>0
+\qquad \text{and} \qquad
+\gamma_{ki}(y)>0.
+\]\\
+
+So we know that we can travel between $i$ and $k$ in both directions as well.\\
+
+\vspace{0.3cm}
+
+Now we want to show that $j$ can reach $k$. Intuitively, this should be true because we already know the following:
+
+\begin{enumerate}
+\item we can go from $j$ to $i$ in $w$ steps, and
+\item we can go from $i$ to $k$ in $x$ steps.
+\end{enumerate}
+
+Therefore, by simply concatenating these two journeys, we obtain a path from $j$ to $k$ that takes $w+x$ steps.\\
+
+To formalise this idea, we use the Chapman-Kolmogorov equations. These allow us to decompose the probability of moving from one state to another over multiple steps by summing over intermediate states. Specifically,\\
+\[
+\gamma_{jk}(w+x)
+=
+\sum_{r\in \cal{U}}\gamma_{jr}(w)\gamma_{rk}(x).
+\]\\
+
+This equation tells us that the probability of moving from $j$ to $k$ in $w+x$ steps can be computed by summing over all intermediate states $r$ that the chain might occupy after $w$ steps.\\
+
+Since $i$ is one of the states in the state space $U$, one of the terms in this sum is:\\
+\[
+\gamma_{ji}(w)\gamma_{ik}(x).
+\]\\
+
+But we know that both of these probabilities are strictly positive. Therefore their product is also strictly positive. Consequently, the entire sum must also be positive, which implies\\
+\[
+\gamma_{jk}(w+x)>0.
+\]\\
+
+Thus $j \to k$.\\
+
+\vspace{0.3cm}
+
+A completely symmetric argument shows that $k \to j$. We simply reverse the roles of the paths:\\
+
+\begin{itemize}
+\item first move from $k$ to $i$ in $y$ steps,
+\item then move from $i$ to $j$ in $v$ steps.
+\end{itemize}
+
+Using Chapman-Kolmogorov again gives: \\
+\[
+\gamma_{kj}(y+v)
+=
+\sum_{r\in \cal{U}}\gamma_{kr}(y)\gamma_{rj}(v),
+\]\\
+and the term corresponding to $r=i$ is strictly positive. Hence: \\
+\[
+\gamma_{kj}(y+v)>0,
+\]\\
+so $k \to j$.\\
+
+\vspace{0.3cm}
+
+Putting these two results together yields: \\
+\[
+j \to k
+\qquad \text{and} \qquad
+k \to j.
+\]\\
+
+Therefore,\\
+\[
+j \leftrightarrow k.
+\]
+
+This proves that the communication relation is transitive.
+
+\section*{Final Intuition}
+
+The entire proof is essentially a statement about paths in the Markov chain:\\
+
+\begin{quote}
+If $j$ can reach $i$, and $i$ can reach $k$, then by following those paths one after the other we obtain a path from $j$ to $k$.
+\end{quote}
+
+The Chapman-Kolmogorov equations simply provide the formal mathematical justification that the probability of such a combined path must be positive.
+
+\section*{References}
+
+\begin{itemize}
+
+\item Pienaar, E. (University of Cape Town). 
+\textit{Stochastic Processes}. 
+Lecture notes and in-person lectures, Department of Statistical Sciences,
+University of Cape Town.
+
+\end{itemize}
+
+\end{document}
