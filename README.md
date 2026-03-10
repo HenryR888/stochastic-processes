@@ -15,3 +15,7 @@ Topics shall include:
 These notes are written while studying Stochastic Processes and Time Series Analysis (STA3041F) at the University of Cape Town.
 
 The goal here is to build clear, intuitive explanations of the topics studied, alongside formal proofs in order to strengthen my understanding.
+
+## Acknowledgement
+
+The concepts covered in these notes are derived from lectures given by **Dr Etienne Pienaar** in the Department of Statistical Sciences at the University of Cape Town. 
